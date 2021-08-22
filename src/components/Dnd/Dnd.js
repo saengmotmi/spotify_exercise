@@ -1,7 +1,19 @@
 import React, { Children } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+  DropResult,
+  ResponderProvided,
+  DraggableProvided,
+} from "react-beautiful-dnd";
 
-export const DndWrapper = ({ children, handleChange }) => {
+// interface DndItemProps {
+//   children: React.ReactNode;
+//   handleChange: (result: DropResult, provided: ResponderProvided) => void;
+// }
+
+export function DndWrapper({ children, handleChange }) {
   return (
     <DragDropContext onDragEnd={handleChange}>
       <Droppable droppableId="list">
@@ -14,9 +26,15 @@ export const DndWrapper = ({ children, handleChange }) => {
       </Droppable>
     </DragDropContext>
   );
-};
+}
 
-export const DndItem = ({ index, id, children }) => {
+// interface DndItemProps {
+//   index: number;
+//   id: string;
+//   children: React.ReactNode;
+// }
+
+export function DndItem({ index, id, children }) {
   return (
     <Draggable draggableId={id} index={index}>
       {(provided) =>
@@ -28,7 +46,7 @@ export const DndItem = ({ index, id, children }) => {
           };
 
           return (
-            <Type {...children.props} {...childProps}>
+            <Type {...children?.props} {...childProps}>
               {props.children}
             </Type>
           );
@@ -36,7 +54,7 @@ export const DndItem = ({ index, id, children }) => {
       }
     </Draggable>
   );
-};
+}
 
 const Dnd = { DndWrapper, DndItem };
 

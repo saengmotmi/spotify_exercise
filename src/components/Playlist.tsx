@@ -1,6 +1,9 @@
 import styled from "styled-components";
+import { Playlist as PlaylistType } from "types/spotify";
 
-export default function Playlist({ images, name, description }) {
+type PlaylistProps = Pick<PlaylistType, "images" | "name" | "description">;
+
+export default function Playlist({ images, name, description }: PlaylistProps) {
   return (
     <Container>
       <img alt="playlist" src={images[0].url} width="200" />

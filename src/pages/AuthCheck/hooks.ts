@@ -11,9 +11,8 @@ export function useAuthCheck() {
   useEffect(() => {
     const hash = location.hash.substr(1);
     const { token_type, access_token, refresh_token } = qs.parse(hash);
-    console.log(hash);
 
-    token.set("refresh_token", refresh_token);
+    // token.set("refresh_token", refresh_token);
 
     if (access_token) {
       token.set(`${token_type} ${access_token}`);

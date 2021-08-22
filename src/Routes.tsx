@@ -7,17 +7,20 @@ import PlaylistDetail from "pages/PlaylistDetail";
 
 import Nav from "components/Nav";
 import PrivateRoute from "components/PrivateRoute";
+import ResetTrack from "components/ResetTrack";
 
 export default function Routes() {
   return (
     <Router>
       <Nav />
-      <Switch>
-        <PrivateRoute exact path="/" component={Main} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/spotify" component={AuthCheck} />
-        <Route exact path="/playlist/:id" component={PlaylistDetail} />
-      </Switch>
+      <ResetTrack>
+        <Switch>
+          <PrivateRoute exact path="/" component={Main} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/spotify" component={AuthCheck} />
+          <Route exact path="/playlist/:id" component={PlaylistDetail} />
+        </Switch>
+      </ResetTrack>
     </Router>
   );
 }

@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import axios from "axios";
 import { useQuery } from "react-query";
 
 import Playlist from "components/Playlist";
 
 import { getPlaylists } from "./api";
 import { useGetUserInfo } from "./hooks";
-import api from "utils/api";
+import { Playlist as PlaylistType } from "types/spotify";
 
 export default function Main() {
   const { user } = useGetUserInfo();
@@ -19,22 +18,11 @@ export default function Main() {
 
   if (isLoading) return <div>Loading...</div>;
 
-  // const [playlists, setPlaylists] = useState([]);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data } = await api.get("/me/playlists");
-
-  //     setPlaylists(data.items);
-  //     console.log(data.items);
-  //   })();
-  // }, []);
-
   return (
     <Container>
-      <h1>{user.display_name}'s Playlists</h1>
+      <h1>{user?.display_name}'s Playlists</h1>
       <PlaylistSection>
-        {playlists.map((playlist) => (
+        {(playlists as []).map((playlist: PlaylistType) => (
           <Link key={playlist.id} to={`/playlist/${playlist.id}`}>
             <Playlist {...playlist} />
           </Link>

@@ -2,7 +2,7 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { userState } from "atom";
+import { userState } from "globalState/atom";
 
 const SPOTIFY_LOGO_WHITE =
   "https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png";
@@ -18,7 +18,7 @@ export default function Nav() {
         </Link>
       </LogoSection>
       <UserSection>
-        <ProfileImg src={user.images?.[0].url} />
+        <ProfileImg src={user?.images[0].url} />
       </UserSection>
     </Container>
   );
@@ -32,6 +32,7 @@ const Container = styled.nav`
   padding: 0 20px;
   background: #17181e;
   border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  z-index: 10000;
 `;
 
 const Section = styled.div`

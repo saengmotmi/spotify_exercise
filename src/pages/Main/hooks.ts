@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { userState } from "atom";
+
+import { userState } from "globalState/atom";
 import { getUserInfo } from "./api";
 
 export function useGetUserInfo() {

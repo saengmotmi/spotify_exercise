@@ -15,7 +15,7 @@ export const token = {
       return "";
     }
   },
-  set(token) {
+  set(token: string) {
     localStorage.setItem(AUTH_TOKEN, token);
   },
 };
