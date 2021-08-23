@@ -6,9 +6,7 @@ import api from "utils/api";
 import { UserInfo, Playlists } from "types/spotify";
 
 export async function getUserInfo() {
-  const { data: userInfo }: AxiosResponse<UserInfo> = await api.get("/me", {
-    headers: { Authorization: token.get() },
-  });
+  const { data: userInfo }: AxiosResponse<UserInfo> = await api.get("/me");
 
   return userInfo;
 }

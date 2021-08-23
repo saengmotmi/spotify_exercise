@@ -1,27 +1,41 @@
-import React from "react";
 import { useRecoilValue } from "recoil";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
+
 import { userState } from "globalState/atom";
 
+const NAV_ACTIVE_LIST = ["/", "/playlist"];
 const SPOTIFY_LOGO_WHITE =
   "https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png";
 
 export default function Nav() {
   const user = useRecoilValue(userState);
+  const { pathname } = useLocation();
+
+  const isNavActive = checkIsNavActive(pathname);
 
   return (
-    <Container>
-      <LogoSection>
-        <Link to="/">
-          <LogoImg />
-        </Link>
-      </LogoSection>
-      <UserSection>
-        <ProfileImg src={user?.images[0].url} />
-      </UserSection>
-    </Container>
+    <>
+      {isNavActive && (
+        <Container>
+          <LogoSection>
+            <Link to="/">
+              <LogoImg />
+            </Link>
+          </LogoSection>
+          <UserSection>
+            <ProfileImg src={user?.images[0].url} />
+          </UserSection>
+        </Container>
+      )}
+    </>
   );
+}
+
+function checkIsNavActive(path: string) {
+  const [_, pathToCheck] = path.split("/").map((s: string) => "/" + s);
+
+  return NAV_ACTIVE_LIST.includes(pathToCheck);
 }
 
 const Container = styled.nav`

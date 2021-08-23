@@ -1,8 +1,22 @@
-import { Route, Redirect, RouteProps } from "react-router-dom";
+import {
+  Route,
+  Redirect,
+  RouteProps,
+  RouteComponentProps,
+  StaticContext,
+} from "react-router";
 import { checkAuth } from "utils/auth";
 
 interface PrivateRouteProps extends RouteProps {
-  component: any;
+  component: React.FC<
+    RouteComponentProps<
+      {
+        [x: string]: string | undefined;
+      },
+      StaticContext,
+      unknown
+    >
+  >;
 }
 
 export default function PrivateRoute({

@@ -29,5 +29,8 @@ export default function PlaylistDetail() {
 }
 
 const Container = styled.div`
+  display: flex;
   margin-top: 64px;
+  background-color: rgb(56, 64, 64);
+  background-image: linear-gradient(transparent, black);
 `;

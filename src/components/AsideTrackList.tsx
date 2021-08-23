@@ -59,14 +59,14 @@ const Container = styled.aside`
   top: 64px;
   bottom: 0;
   right: 0;
-  width: 30%;
+  width: 20%;
   overflow: scroll;
 `;
 
 const Card = styled.div`
   display: flex;
 
-  border: 1px dashed gray;
+  /* border: 1px dashed gray; */
   padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
   background-color: white;

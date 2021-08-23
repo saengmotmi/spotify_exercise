@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 
-import { PlaylistTrack } from "types/spotify";
-
 export function useDndList(init) {
   const [list, setList] = useState(init);
 

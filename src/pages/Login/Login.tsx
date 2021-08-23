@@ -12,5 +12,6 @@ export default function Login() {
 }
 
 const Form = styled.div`
+  margin-top: 60px;
   text-align: center;
 `;

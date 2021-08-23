@@ -16,13 +16,13 @@ export default function Main() {
     initialData: [],
   });
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading || !playlists) return <div>Loading...</div>;
 
   return (
     <Container>
       <h1>{user?.display_name}'s Playlists</h1>
       <PlaylistSection>
-        {(playlists as []).map((playlist: PlaylistType) => (
+        {playlists.map((playlist: PlaylistType) => (
           <Link key={playlist.id} to={`/playlist/${playlist.id}`}>
             <Playlist {...playlist} />
           </Link>

@@ -12,7 +12,7 @@ export function useGetUserInfo() {
       const userInfo = await getUserInfo();
       setUser(userInfo);
     })();
-  }, []);
+  }, [setUser]);
 
   return { user };
 }

@@ -48,6 +48,7 @@ interface Owner {
   id: string;
   type: string;
   uri: string;
+  name: string;
 }
 
 export interface Playlist {
