@@ -1,20 +1,17 @@
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components/macro";
 
 import { useDndList } from "components/Dnd/hooks";
 import { DndWrapper, DndItem } from "components/Dnd/Dnd";
 
-import { currentTrackState } from "globalState/atom";
-import { Track, PlaylistTrack } from "types/spotify";
+import { currentTrackIndexState, tracksState } from "globalState/atom";
+import { PlaylistTrack } from "types/spotify";
 
-interface AsideTrackListProps {
-  tracks: PlaylistTrack[] | [];
-}
-
-export default function AsideTrackList({ tracks }: AsideTrackListProps) {
+export default function AsideTrackList() {
+  const tracks = useRecoilValue(tracksState);
   const { list: trackList, handleChange } = useDndList(tracks);
-  const [track, setTrack] = useRecoilState(currentTrackState);
+  const setCurrentTrack = useSetRecoilState(currentTrackIndexState);
 
   const scrollIntoView = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.currentTarget.scrollIntoView({
@@ -26,26 +23,35 @@ export default function AsideTrackList({ tracks }: AsideTrackListProps) {
 
   const handleCardClick = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
-    trackToPlay: Track
+    index: number
   ) => {
     scrollIntoView(e);
-    setTrack(trackToPlay);
+    setCurrentTrack(index);
+  };
+
+  const handleDndChange = (...args: any[]) => {
+    const [{ destination, source }] = args;
+
+    if (destination.index === source.index) return;
+
+    handleChange(...args);
   };
 
   return (
     <Container>
-      <DndWrapper handleChange={handleChange}>
+      <DndWrapper handleChange={handleDndChange}>
         {trackList.map(({ track }: PlaylistTrack, index: number) => (
           <DndItem key={track.id} id={track.id} index={index}>
-            <Card onClick={(e) => handleCardClick(e, track)}>
+            <Card onClick={(e) => handleCardClick(e, index)}>
               <img
                 alt="album cover"
                 src={track.album.images[0].url}
-                width="150"
+                width="100"
               />
-              <div>
+              <CardDesc>
                 <p>{track.name}</p>
-              </div>
+                <p>{track.artists[0].name}</p>
+              </CardDesc>
             </Card>
           </DndItem>
         ))}
@@ -71,4 +77,17 @@ const Card = styled.div`
   margin-bottom: 0.5rem;
   background-color: white;
   cursor: move;
+`;
+
+const CardDesc = styled.div`
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  p:first-of-type {
+    margin-bottom: 20px;
+    font-size: 17px;
+    font-weight: 700;
+  }
 `;

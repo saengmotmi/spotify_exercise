@@ -12,6 +12,15 @@ interface Properties {
   previous: string | null;
 }
 
+// Auth
+export interface AuthResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  refresh_token: string;
+  scope: string;
+}
+
 // UserInfo
 export interface UserInfo {
   country: string;

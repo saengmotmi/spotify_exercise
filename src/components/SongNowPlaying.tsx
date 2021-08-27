@@ -1,17 +1,17 @@
 import { useEffect, useRef } from "react";
-import { useRecoilState, useResetRecoilState } from "recoil";
 import styled from "styled-components/macro";
+import { useRecoilValue, useRecoilState } from "recoil";
 
-import { currentTrackState } from "globalState/atom";
+import { currentTrackIndexState, tracksState } from "globalState/atom";
+import { currentTrackSelector } from "globalState/selector";
 
 export default function SongNowPlaying() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [track, setTrack] = useRecoilState(currentTrackState);
-  const resetTrack = useResetRecoilState(currentTrackState);
-
-  useEffect(() => {
-    // 첫 리스트 레디 -> 목록을 상태에 넣어놓고, 개별 트랙은 selector로?
-  }, []);
+  const [currentTrackIndex, setCurrentIndex] = useRecoilState(
+    currentTrackIndexState
+  );
+  const track = useRecoilValue(currentTrackSelector);
+  const tracks = useRecoilValue(tracksState);
 
   useEffect(() => {
     if (audioRef.current === null) return;
@@ -23,7 +23,16 @@ export default function SongNowPlaying() {
     }
   }, [track]);
 
-  console.log(track);
+  const onEnded = () => {
+    audioRef.current?.pause();
+    setCurrentIndex((prev: number) => {
+      if (tracks.length - 1 === currentTrackIndex) {
+        return 0;
+      } else {
+        return prev + 1;
+      }
+    });
+  };
 
   return (
     <Container>
@@ -36,7 +45,7 @@ export default function SongNowPlaying() {
           ref={audioRef}
           controls
           src={track?.preview_url}
-          onEnded={() => audioRef.current?.pause()}
+          onEnded={onEnded}
         />
       </div>
     </Container>

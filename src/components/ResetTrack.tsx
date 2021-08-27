@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useResetRecoilState } from "recoil";
 
-import { currentTrackState } from "globalState/atom";
+import { tracksState, currentTrackIndexState } from "globalState/atom";
 
 interface ResetTrackProps {
   children: React.ReactNode;
@@ -10,11 +10,13 @@ interface ResetTrackProps {
 
 export default function ResetTrack({ children }: ResetTrackProps) {
   const location = useLocation();
-  const resetTrack = useResetRecoilState(currentTrackState);
+  const resetTracks = useResetRecoilState(tracksState);
+  const resetIndex = useResetRecoilState(currentTrackIndexState);
 
   useEffect(() => {
     if (!location.pathname.includes("/playlist")) {
-      resetTrack();
+      resetTracks();
+      resetIndex();
     }
   }, [location.pathname]);
 

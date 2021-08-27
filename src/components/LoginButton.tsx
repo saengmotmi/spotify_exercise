@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+import { generateCodeChallenge, generateCodeVerifier } from "utils/auth";
+
 export default function LoginButton() {
   return (
     <a
@@ -13,11 +15,17 @@ export default function LoginButton() {
 }
 
 function auth() {
+  const codeVerifier = generateCodeVerifier();
+  const codeChallenge = generateCodeChallenge(codeVerifier);
+
+  localStorage.setItem("code_verifier", codeVerifier);
+
   const qsObj = {
     client_id: process.env.REACT_APP_CLIENT_ID,
     redirect_uri: process.env.REACT_APP_REDIRECT_URI,
-    scope: "user-top-read",
-    response_type: "token",
+    response_type: "code",
+    code_challenge: codeChallenge,
+    code_challenge_method: "S256",
   };
 
   return (

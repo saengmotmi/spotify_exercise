@@ -1,29 +1,19 @@
-import { useParams } from "react-router-dom";
 import styled from "styled-components/macro";
-import { useQuery } from "react-query";
 
 import SongNowPlaying from "components/SongNowPlaying";
 import AsideTrackList from "components/AsideTrackList";
 
-import { getPlaylist } from "./api";
+import { useGetTracks } from "./hooks";
 
 export default function PlaylistDetail() {
-  const { id } = useParams<{ id: string }>();
+  const { isLoading, tracks } = useGetTracks();
 
-  const { isLoading, data: tracks } = useQuery(
-    `playlist-${id}`,
-    () => getPlaylist(id),
-    {
-      initialData: [],
-    }
-  );
-
-  if (isLoading || !tracks) return <span>Loading...</span>;
+  if (isLoading || !tracks?.length) return <span>Loading...</span>;
 
   return (
     <Container>
       <SongNowPlaying />
-      <AsideTrackList tracks={tracks} />
+      <AsideTrackList />
     </Container>
   );
 }
