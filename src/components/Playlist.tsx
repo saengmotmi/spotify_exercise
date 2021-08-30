@@ -1,26 +1,40 @@
 import styled from "styled-components";
 import { Playlist as PlaylistType } from "types/spotify";
 
-type PlaylistProps = Pick<PlaylistType, "images" | "name" | "description">;
-
-export default function Playlist({ images, name, description }: PlaylistProps) {
+export default function Playlist({ images, name, description }: PlaylistType) {
   return (
     <Container>
-      <img alt="playlist" src={images[0].url} width="200" />
-      <p>{name}</p>
-      {description && <p>{description}</p>}
+      <AlbumCover src={images[0].url} />
+      <Title>{name}</Title>
+      {description && <Description>{description}</Description>}
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 200px;
+  flex: 1;
 
   margin-right: 20px;
   margin-bottom: 20px;
 
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  background-color: #181818;
+  padding: 16px;
+`;
+
+const AlbumCover = styled.img.attrs(() => ({ alt: "playlist" }))`
+  width: 100%;
+  margin-bottom: 16px;
+`;
+
+const Title = styled.p`
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+`;
+
+const Description = styled.p`
+  margin-top: 4px;
+  color: rgb(179, 179, 179);
+  font-size: 14px;
+  font-weight: 400;
 `;

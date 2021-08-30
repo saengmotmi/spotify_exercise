@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import axios from "axios";
 import qs from "qs";
 
-import { AUTH_TOKEN, token } from "utils/auth";
+import { sendRefreshToken } from "./api";
+import { token } from "utils/auth";
 
 export function useAuthCheck() {
   const location = useLocation();
@@ -11,23 +11,25 @@ export function useAuthCheck() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    (async () => {
-      const query = qs.parse(location.search.substr(1));
+    function parseQuery() {
+      return qs.parse(location.search.substr(1));
+    }
 
-      const formData = new URLSearchParams({
+    function getAuthFormData() {
+      return new URLSearchParams({
         client_id: process.env.REACT_APP_CLIENT_ID as string,
         grant_type: "authorization_code",
-        code: query.code as string,
+        code: parseQuery().code as string,
         redirect_uri: process.env.REACT_APP_REDIRECT_URI as string,
         code_verifier: localStorage.getItem("code_verifier") as string,
       });
+    }
 
-      const { data } = await axios.post(
-        "https://accounts.spotify.com/api/token",
-        formData
-      );
+    (async () => {
+      const formData = getAuthFormData();
 
-      const { refresh_token, access_token, token_type } = data;
+      const { refresh_token, access_token, token_type } =
+        await sendRefreshToken(formData);
 
       if (access_token) {
         localStorage.removeItem("code_verifier");

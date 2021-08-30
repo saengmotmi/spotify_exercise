@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useQuery } from "react-query";
@@ -34,6 +33,8 @@ export default function Main() {
 
 const Container = styled.div`
   margin-top: 64px;
+  background-color: #121212;
+  height: 100vh;
 `;
 
 const PlaylistSection = styled.section`

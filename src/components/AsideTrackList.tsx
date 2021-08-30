@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 
 import { useDndList } from "components/Dnd/hooks";
 import { DndWrapper, DndItem } from "components/Dnd/Dnd";
@@ -42,7 +42,10 @@ export default function AsideTrackList() {
       <DndWrapper handleChange={handleDndChange}>
         {trackList.map(({ track }: PlaylistTrack, index: number) => (
           <DndItem key={track.id} id={track.id} index={index}>
-            <Card onClick={(e) => handleCardClick(e, index)}>
+            <Card
+              isActive={track.preview_url}
+              onClick={(e) => track.preview_url && handleCardClick(e, index)}
+            >
               <img
                 alt="album cover"
                 src={track.album.images[0].url}
@@ -69,14 +72,24 @@ const Container = styled.aside`
   overflow: scroll;
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ isActive: string }>`
   display: flex;
 
-  /* border: 1px dashed gray; */
   padding: 0.5rem 1rem;
   margin-bottom: 0.5rem;
-  background-color: white;
+  background-color: #121212;
+  color: #fff;
   cursor: move;
+
+  ${({ isActive }) =>
+    !isActive &&
+    css`
+      opacity: 0.5;
+
+      :hover {
+        cursor: not-allowed;
+      }
+    `}
 `;
 
 const CardDesc = styled.div`
@@ -89,5 +102,9 @@ const CardDesc = styled.div`
     margin-bottom: 20px;
     font-size: 17px;
     font-weight: 700;
+  }
+
+  p:last-of-type {
+    color: rgb(179, 179, 179);
   }
 `;

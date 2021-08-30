@@ -20,18 +20,16 @@ function auth() {
 
   localStorage.setItem("code_verifier", codeVerifier);
 
-  const qsObj = {
-    client_id: process.env.REACT_APP_CLIENT_ID,
-    redirect_uri: process.env.REACT_APP_REDIRECT_URI,
-    response_type: "code",
-    code_challenge: codeChallenge,
-    code_challenge_method: "S256",
-  };
-
   return (
     "?" +
-    Object.entries(qsObj)
-      .map((el) => el.join("="))
+    Object.entries({
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      redirect_uri: process.env.REACT_APP_REDIRECT_URI,
+      response_type: "code",
+      code_challenge: codeChallenge,
+      code_challenge_method: "S256",
+    })
+      .map((entry) => entry.join("="))
       .join("&")
   );
 }

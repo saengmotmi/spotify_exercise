@@ -17,6 +17,7 @@ export default function SongNowPlaying() {
     if (audioRef.current === null) return;
 
     if (track) {
+      // preview_url이 null이면 다음 곡 재생하도록 조건 추가
       audioRef.current.play();
     } else {
       audioRef.current.src = "";
@@ -76,6 +77,6 @@ const TrackName = styled.h1`
 `;
 
 const ArtistName = styled.h3`
-  color: #fff;
+  color: rgb(179, 179, 179);
   font-size: 15px;
 `;

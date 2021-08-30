@@ -13,6 +13,14 @@ interface Properties {
 }
 
 // Auth
+export interface AuthRequest {
+  client_id: string;
+  grant_type: "authorization_code";
+  code: string;
+  redirect_uri: string;
+  code_verifier: string;
+}
+
 export interface AuthResponse {
   access_token: string;
   token_type: string;
