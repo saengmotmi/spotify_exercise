@@ -13,11 +13,24 @@ export default function SongNowPlaying() {
   const track = useRecoilValue(currentTrackSelector);
   const tracks = useRecoilValue(tracksState);
 
+  const goNextTrack = () => {
+    setCurrentIndex((prev: number) => {
+      if (tracks.length - 1 === currentTrackIndex) {
+        return 0;
+      } else {
+        return prev + 1;
+      }
+    });
+  };
+
   useEffect(() => {
     if (audioRef.current === null) return;
 
     if (track) {
-      // preview_url이 null이면 다음 곡 재생하도록 조건 추가
+      if (!track.preview_url) {
+        goNextTrack();
+      }
+
       audioRef.current.play();
     } else {
       audioRef.current.src = "";
@@ -26,13 +39,7 @@ export default function SongNowPlaying() {
 
   const onEnded = () => {
     audioRef.current?.pause();
-    setCurrentIndex((prev: number) => {
-      if (tracks.length - 1 === currentTrackIndex) {
-        return 0;
-      } else {
-        return prev + 1;
-      }
-    });
+    goNextTrack();
   };
 
   return (
