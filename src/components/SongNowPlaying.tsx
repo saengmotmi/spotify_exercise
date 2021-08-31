@@ -27,6 +27,7 @@ export default function SongNowPlaying() {
     if (audioRef.current === null) return;
 
     if (track) {
+      // TODO: 재생 가능한 트랙이 없습니다 조건 추가ㄴ
       if (!track.preview_url) {
         goNextTrack();
       }

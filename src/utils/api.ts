@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 
+import { sendRefreshToken } from "pages/AuthCheck/api";
 import { token } from "utils/auth";
 import { AuthResponse } from "types/spotify";
 
@@ -15,8 +16,6 @@ api.interceptors.request.use(
     return config;
   },
   function (error) {
-    console.log(error.response.status);
-
     // Do something with request error
     return Promise.reject(error);
   }
@@ -35,18 +34,15 @@ api.interceptors.response.use(
         client_id: process.env.REACT_APP_CLIENT_ID as string,
       });
 
-      const { data }: AxiosResponse<AuthResponse> = await axios.post(
-        "https://accounts.spotify.com/api/token",
-        formData
-      );
-
-      const { access_token, refresh_token, token_type } = data;
+      const {
+        data: { access_token, refresh_token, token_type },
+      }: AxiosResponse<AuthResponse> = await sendRefreshToken(formData);
 
       token.set(`${token_type} ${access_token}`);
       localStorage.setItem("refresh_token", refresh_token);
     }
 
-    // Do something with request error
+    // Do something with response error
     return Promise.reject(error);
   }
 );

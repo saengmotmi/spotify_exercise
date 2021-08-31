@@ -1,6 +1,7 @@
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components/macro";
+import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 
 import { useDndList } from "components/Dnd/hooks";
 import { DndWrapper, DndItem } from "components/Dnd/Dnd";
@@ -29,14 +30,13 @@ export default function AsideTrackList() {
     setCurrentTrack(index);
   };
 
-  const handleDndChange = (...args: any[]) => {
-    const [{ destination, source }] = args;
+  const handleDndChange = (result: DropResult, provided: ResponderProvided) => {
+    if (result.destination?.index === result.source.index) return;
 
-    if (destination.index === source.index) return;
-
-    handleChange(...args);
+    handleChange(result);
   };
 
+  // TODO: 커스텀 스크롤 바
   return (
     <Container>
       <DndWrapper handleChange={handleDndChange}>
@@ -69,7 +69,7 @@ const Container = styled.aside`
   bottom: 0;
   right: 0;
   width: 20%;
-  overflow: scroll;
+  overflow-y: scroll;
 `;
 
 const Card = styled.div<{ isActive: string }>`
