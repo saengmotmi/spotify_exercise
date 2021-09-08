@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled, { css } from "styled-components/macro";
 import { DropResult, ResponderProvided } from "react-beautiful-dnd";
@@ -6,10 +6,11 @@ import { DropResult, ResponderProvided } from "react-beautiful-dnd";
 import { useDndList } from "components/Dnd/hooks";
 import { DndWrapper, DndItem } from "components/Dnd/Dnd";
 
-import { currentTrackIndexState, tracksState } from "globalState/atom";
+import { PlayProps } from "pages/PlaylistDetail/PlaylistDetail";
+import { currentTrackIndexState, tracksState } from "globalState/track";
 import { PlaylistTrack } from "types/spotify";
 
-export default function AsideTrackList() {
+export default function AsideTrackList({ isPlaying, setPlay }: PlayProps) {
   const tracks = useRecoilValue(tracksState);
   const { list: trackList, handleChange } = useDndList(tracks);
   const setCurrentTrack = useSetRecoilState(currentTrackIndexState);

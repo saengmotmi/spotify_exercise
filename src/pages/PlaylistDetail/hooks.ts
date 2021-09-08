@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useSetRecoilState } from "recoil";
 
-import { tracksState } from "globalState/atom";
+import { tracksState } from "globalState/track";
 import { getPlaylist } from "./api";
 
 export function useGetTracks() {

@@ -1,61 +1,73 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import styled from "styled-components/macro";
 import { useRecoilValue, useRecoilState } from "recoil";
 
-import { currentTrackIndexState, tracksState } from "globalState/atom";
-import { currentTrackSelector } from "globalState/selector";
+import { PlayProps } from "pages/PlaylistDetail/PlaylistDetail";
 
-export default function SongNowPlaying() {
-  const audioRef = useRef<HTMLAudioElement>(null);
+import {
+  currentTrackIndexState,
+  tracksState,
+  currentTrackSelector,
+} from "globalState/track";
+import { audioClient } from "globalState/audio";
+
+export default function SongNowPlaying({ isPlaying, setPlay }: PlayProps) {
   const [currentTrackIndex, setCurrentIndex] = useRecoilState(
     currentTrackIndexState
   );
   const track = useRecoilValue(currentTrackSelector);
   const tracks = useRecoilValue(tracksState);
+  const audio = useRecoilValue(audioClient);
 
-  const goNextTrack = () => {
-    setCurrentIndex((prev: number) => {
-      if (tracks.length - 1 === currentTrackIndex) {
-        return 0;
-      } else {
-        return prev + 1;
-      }
-    });
-  };
+  // const goNextTrack = () => {
+  //   audio.client.pause();
+  //   setCurrentIndex((prev: number) => {
+  //     if (tracks.length - 1 === currentTrackIndex) {
+  //       return 0;
+  //     } else {
+  //       return prev + 1;
+  //     }
+  //   });
+  // };
 
-  useEffect(() => {
-    if (audioRef.current === null) return;
+  // useEffect(() => {
+  //   audio.client.addEventListener("ended", goNextTrack);
 
-    if (track) {
-      // TODO: 재생 가능한 트랙이 없습니다 조건 추가ㄴ
-      if (!track.preview_url) {
-        goNextTrack();
-      }
+  //   if (!isPlaying) {
+  //     console.log("hhlhlhlh");
+  //     return audio.client.pause();
+  //   }
 
-      audioRef.current.play();
-    } else {
-      audioRef.current.src = "";
-    }
-  }, [track]);
+  //   if (track) {
+  //     // TODO: 재생 가능한 트랙이 없습니다 조건 추가
+  //     if (!track.preview_url) {
+  //       goNextTrack();
+  //     }
 
-  const onEnded = () => {
-    audioRef.current?.pause();
-    goNextTrack();
-  };
+  //     audio.client.play();
+  //   } else {
+  //     audio.client.src = "";
+  //   }
+
+  //   return () => {
+  //     audio.client.pause();
+  //     audio.client.removeEventListener("ended", goNextTrack);
+  //   };
+  // }, [track, isPlaying]);
 
   return (
     <Container>
       <div>
-        <CoverImage src={track?.album.images[0].url} />
+        <CoverImage
+          onClick={() =>
+            setPlay((prev: boolean) => {
+              return !prev;
+            })
+          }
+          src={track?.album.images[0].url}
+        />
         <TrackName>{track?.name}</TrackName>
         <ArtistName>{track?.artists[0].name}</ArtistName>
-        <audio
-          style={{ display: "none" }}
-          ref={audioRef}
-          controls
-          src={track?.preview_url}
-          onEnded={onEnded}
-        />
       </div>
     </Container>
   );

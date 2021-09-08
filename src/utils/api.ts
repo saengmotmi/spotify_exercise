@@ -27,12 +27,16 @@ api.interceptors.response.use(
     return config;
   },
   async function (error) {
+    console.log("error", error.response);
+
     if (error.response.status === 401) {
       const formData = new URLSearchParams({
         grant_type: "refresh_token",
         refresh_token: localStorage.getItem("refresh_token") as string,
         client_id: process.env.REACT_APP_CLIENT_ID as string,
       });
+
+      console.log([...formData.entries()]);
 
       const {
         data: { access_token, refresh_token, token_type },

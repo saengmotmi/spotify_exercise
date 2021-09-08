@@ -2,7 +2,7 @@ import { useRecoilValue } from "recoil";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
-import { userState } from "globalState/atom";
+import { userState } from "globalState/user";
 
 const NAV_ACTIVE_LIST = ["/", "/playlist"];
 const SPOTIFY_LOGO_WHITE =

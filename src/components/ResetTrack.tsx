@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useResetRecoilState } from "recoil";
 
-import { tracksState, currentTrackIndexState } from "globalState/atom";
+import { tracksState, currentTrackIndexState } from "globalState/track";
 
 interface ResetTrackProps {
   children: React.ReactNode;

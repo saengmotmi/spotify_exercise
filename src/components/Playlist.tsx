@@ -4,7 +4,7 @@ import { Playlist as PlaylistType } from "types/spotify";
 export default function Playlist({ images, name, description }: PlaylistType) {
   return (
     <Container>
-      <AlbumCover src={images[0].url} />
+      <AlbumCover src={images[0]?.url || ""} />
       <Title>{name}</Title>
       {description && <Description>{description}</Description>}
     </Container>

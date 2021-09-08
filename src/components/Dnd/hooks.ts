@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useSetRecoilState } from "recoil";
 
-import { tracksState, currentTrackIndexState } from "globalState/atom";
+import { tracksState, currentTrackIndexState } from "globalState/track";
 import { PlaylistTrack } from "types/spotify";
 
 export function useDndList(init: PlaylistTrack[]) {

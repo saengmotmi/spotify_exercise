@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import LoginLogo from "components/LoginLogo";
-import LoginButton from "components/LoginButton";
+import LoginLogo from "./LoginLogo";
+import LoginButton from "./LoginButton";
 
 export default function Login() {
   return (
